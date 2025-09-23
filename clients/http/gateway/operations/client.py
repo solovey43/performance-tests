@@ -1,6 +1,7 @@
 from httpx import Response, QueryParams
 from typing import TypedDict, Literal
 from clients.http.client import HTTPClient
+from clients.http.gateway.client import build_gateway_http_client
 
 
 class GetOperationsQueryDict(TypedDict):
@@ -9,7 +10,7 @@ class GetOperationsQueryDict(TypedDict):
     """
     accountId: str
 
-class GetSummaryQueryDict(TypedDict):
+class GetOperationsSummaryQueryDict(TypedDict):
     """
     Структура данных для получения статистики по операциям пользователя.
     """
@@ -109,7 +110,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
         """
         return self.get("/api/v1/operations", params=query)
 
-    def get_operations_summary_api(self, query: GetSummaryQueryDict) -> Response:
+    def get_operations_summary_api(self, query: GetOperationsSummaryQueryDict) -> Response:
         """
         Получение статистики по операциям для определенного счета.
         :param query: Словарь с параметрами запроса, например: {'accountId': '123'}.
@@ -172,3 +173,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response.
         """
         return self.post("/api/v1/operations/make-cash-withdrawal-operation", json=request)
+
+# Добавляем builder для OperationsGatewayHTTPClient
+def build_operations_gateway_http_client() -> OperationsGatewayHTTPClient:
+    return OperationsGatewayHTTPClient(client=build_gateway_http_client())
