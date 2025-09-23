@@ -76,10 +76,6 @@ class CardsGatewayHTTPClient(HTTPClient):
         return response.json()
 
 
-
-
-
-
 # Добавляем builder для CardsGatewayHTTPClient
 def build_cards_gateway_http_client() -> CardsGatewayHTTPClient:
     return CardsGatewayHTTPClient(client=build_gateway_http_client())
