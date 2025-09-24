@@ -27,7 +27,7 @@ class GetAccountsQuerySchema(BaseModel):
     Структура данных для получения списка счетов пользователя.
     """
     model_config = ConfigDict(populate_by_name=True)
-    user_id: str = Field(alias="userId")  # ИСПРАВЛЕНО: userId -> user_id
+    user_id: str = Field(alias="userId")
 
 
 class GetAccountsResponseSchema(BaseModel):
@@ -39,7 +39,7 @@ class OpenDepositAccountRequestSchema(BaseModel):
     Структура данных для открытия депозитного счета.
     """
     model_config = ConfigDict(populate_by_name=True)
-    user_id: str = Field(alias="userId")  # ИСПРАВЛЕНО: userId -> user_id
+    user_id: str = Field(alias="userId")
 
 class OpenDepositAccountResponseSchema(BaseModel):
     account: AccountSchema
@@ -50,7 +50,7 @@ class OpenSavingsAccountRequestSchema(BaseModel):
     Структура данных для открытия сберегательного счета.
     """
     model_config = ConfigDict(populate_by_name=True)
-    user_id: str = Field(alias="userId")  # ИСПРАВЛЕНО: userId -> user_id
+    user_id: str = Field(alias="userId")
 
 class OpenSavingsAccountResponseSchema(BaseModel):
     account: AccountSchema
@@ -61,7 +61,7 @@ class OpenDebitCardAccountRequestSchema(BaseModel):
     Структура данных для открытия дебетового счета.
     """
     model_config = ConfigDict(populate_by_name=True)
-    user_id: str = Field(alias="userId")  # ИСПРАВЛЕНО: userId -> user_id
+    user_id: str = Field(alias="userId")
 
 class OpenDebitCardAccountResponseSchema(BaseModel):
     account: AccountSchema
@@ -72,7 +72,7 @@ class OpenCreditCardAccountRequestSchema(BaseModel):
     Структура данных для открытия кредитного счета.
     """
     model_config = ConfigDict(populate_by_name=True)
-    user_id: str = Field(alias="userId")  # ИСПРАВЛЕНО: userId -> user_id
+    user_id: str = Field(alias="userId")
 
 class OpenCreditCardAccountResponseSchema(BaseModel):
     account: AccountSchema
