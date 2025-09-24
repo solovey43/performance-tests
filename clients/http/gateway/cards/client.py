@@ -1,41 +1,12 @@
-from typing import TypedDict
 from httpx import Response
 from clients.http.client import HTTPClient
 from clients.http.gateway.client import build_gateway_http_client
-
-
-class CardDict(TypedDict):
-    id: str
-    pin: str
-    cvv: str
-    type: str
-    status: str
-    accountId: str
-    cardNumber: str
-    cardHolder: str
-    expiryDate: str
-    paymentSystem: str
-
-
-class IssueVirtualCardRequestDict(TypedDict):
-    """
-    Структура данных для создания карт.
-    """
-    userId: str
-    accountId: str
-
-class IssueVirtualCardResponseDict(TypedDict):
-    card: CardDict
-
-class IssuePhysicalCardRequestDict(TypedDict):
-    """
-    Структура данных для создания карт.
-    """
-    userId: str
-    accountId: str
-
-class IssuePhysicalCardResponseDict(TypedDict):
-    card: CardDict
+from clients.http.gateway.cards.schema import (
+    IssuePhysicalCardResponseSchema,
+    IssueVirtualCardResponseSchema,
+    IssuePhysicalCardRequestSchema,
+    IssueVirtualCardRequestSchema
+)
 
 
 class CardsGatewayHTTPClient(HTTPClient):
@@ -43,37 +14,53 @@ class CardsGatewayHTTPClient(HTTPClient):
     Клиент для взаимодействия с /api/v1/cards сервиса http-gateway.
     """
 
-    def issue_virtual_card_api(self, request: IssueVirtualCardRequestDict) -> Response:
+    def issue_virtual_card_api(self, request: IssueVirtualCardRequestSchema) -> Response:
         """
         Создание виртуальной карты.
-        :param request: Словарь с данными пользователя.
+
+        :param request: Данные для создания виртуальной карты.
         :return: Ответ от сервера (объект httpx.Response).
         """
-        return self.post("/api/v1/cards/issue-virtual-card", json=request)
+        return self.post("/api/v1/cards/issue-virtual-card", json=request.model_dump(by_alias=True))
 
-    def issue_physical_card_api(self, request: IssuePhysicalCardRequestDict) -> Response:
+    def issue_physical_card_api(self, request: IssuePhysicalCardRequestSchema) -> Response:
         """
         Создание физической карты.
-        :param request: Словарь с данными пользователя.
+
+        :param request: Данные для создания физической карты.
         :return: Ответ от сервера (объект httpx.Response).
         """
-        return self.post("/api/v1/cards/issue-physical-card", json=request)
+        return self.post("/api/v1/cards/issue-physical-card", json=request.model_dump(by_alias=True))
 
-    def issue_virtual_card(self, user_id: str, account_id: str) -> IssueVirtualCardResponseDict:
-        request = IssueVirtualCardRequestDict(
-            userId = user_id,
-            accountId = account_id
+    def issue_virtual_card(self, user_id: str, account_id: str) -> IssueVirtualCardResponseSchema:
+        """
+        Создание виртуальной карты.
+
+        :param user_id: ID пользователя
+        :param account_id: ID аккаунта
+        :return: Схема ответа с данными карты
+        """
+        request = IssueVirtualCardRequestSchema(
+            user_id=user_id,
+            account_id=account_id
         )
         response = self.issue_virtual_card_api(request)
-        return response.json()
+        return IssueVirtualCardResponseSchema.model_validate_json(response.text)
 
-    def issue_physical_card(self, user_id: str, account_id: str) -> IssuePhysicalCardResponseDict:
-        request = IssuePhysicalCardRequestDict(
-            userId = user_id,
-            accountId = account_id
+    def issue_physical_card(self, user_id: str, account_id: str) -> IssuePhysicalCardResponseSchema:
+        """
+        Создание физической карты.
+
+        :param user_id: ID пользователя
+        :param account_id: ID аккаунта
+        :return: Схема ответа с данными карты
+        """
+        request = IssuePhysicalCardRequestSchema(
+            user_id=user_id,
+            account_id=account_id
         )
         response = self.issue_physical_card_api(request)
-        return response.json()
+        return IssuePhysicalCardResponseSchema.model_validate_json(response.text)
 
 
 # Добавляем builder для CardsGatewayHTTPClient
