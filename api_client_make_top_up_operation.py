@@ -29,8 +29,6 @@ card_id = open_debit_card_account_response.account.cards[0].id
 # Операция пополнения счета
 make_top_up_response = operations_gateway_client.make_top_up_operation(
     card_id=card_id,
-    account_id=account_id,
-    amount=1000.00,
-    status="COMPLETED"
+    account_id=account_id
 )
 print('Make top up operation response:', make_top_up_response)
