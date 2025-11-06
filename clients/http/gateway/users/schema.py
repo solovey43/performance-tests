@@ -25,6 +25,6 @@ class CreateUserRequestSchema(BaseModel):
     middle_name: str = Field(alias="middleName", default_factory=fake.middle_name)
     phone_number: str = Field(alias="phoneNumber", default_factory=fake.phone_number)
 
-class CreateUserResponseSсhema(BaseModel):
+class CreateUserResponseSchema(BaseModel):
     user: UserSchema
 

@@ -8,7 +8,7 @@ from clients.http.gateway.client import (
     build_gateway_locust_http_client  # Импорт билдера для нагрузочного тестирования
 )
 from clients.http.gateway.users.schema import (
-    GetUserResponseSchema, CreateUserRequestSchema, CreateUserResponseSсhema)
+    GetUserResponseSchema, CreateUserRequestSchema, CreateUserResponseSchema)
 
 
 class UsersGatewayHTTPClient(HTTPClient):
@@ -38,11 +38,11 @@ class UsersGatewayHTTPClient(HTTPClient):
         response = self.get_user_api(user_id)
         return GetUserResponseSchema.model_validate_json(response.text)
 
-    def create_user(self) -> CreateUserResponseSсhema:
+    def create_user(self) -> CreateUserResponseSchema:
         # Генерация данных происходит внутри схемы запроса
         request = CreateUserRequestSchema()
         response = self.create_user_api(request)
-        return CreateUserResponseSсhema.model_validate_json(response.text)
+        return CreateUserResponseSchema.model_validate_json(response.text)
 
 
 # Добавляем builder для UsersGatewayHTTPClient
