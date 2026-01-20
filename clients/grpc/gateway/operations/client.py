@@ -23,8 +23,10 @@ from contracts.services.gateway.operations.rpc_make_transfer_operation_pb2 impor
                                                                                    MakeTransferOperationResponse)
 from contracts.services.gateway.operations.rpc_make_purchase_operation_pb2 import (MakePurchaseOperationRequest,
                                                                                    MakePurchaseOperationResponse)
-from contracts.services.gateway.operations.rpc_make_bill_payment_operation_pb2 import (MakeBillPaymentOperationRequest,
-                                                                                       MakeBillPaymentOperationResponse)
+from contracts.services.gateway.operations.rpc_make_bill_payment_operation_pb2 import (
+    MakeBillPaymentOperationRequest,
+    MakeBillPaymentOperationResponse
+)
 from contracts.services.gateway.operations.rpc_make_cash_withdrawal_operation_pb2 import (
     MakeCashWithdrawalOperationRequest, MakeCashWithdrawalOperationResponse)
 
@@ -98,7 +100,7 @@ class OperationsGatewayGRPCClient(GRPCClient):
     # Высокоуровневые методы
     def get_operation(self, operation_id: str) -> GetOperationResponse:
         """Получение операции по ID"""
-        request = GetOperationRequest(operation_id=operation_id)
+        request = GetOperationRequest(id=operation_id)
         return self.get_operation_api(request)
 
     def get_operation_receipt(self, operation_id: str) -> GetOperationReceiptResponse:
